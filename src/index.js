@@ -1,6 +1,6 @@
 import "./styles.css";
 import { format, compareAsc, parse } from "date-fns";
-import TodoItem from "./todo.js";
+import TodoItem from "./todo";
 
 if (process.env.NODE_ENV !== 'production') {
     console.log('Looks like we are in development mode!');

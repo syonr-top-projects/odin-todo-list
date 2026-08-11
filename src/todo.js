@@ -1,4 +1,5 @@
 import { format, compareAsc, parse } from "date-fns";
+import { editName } from "./user";
 
 export default class TodoItem {
 
@@ -9,12 +10,9 @@ export default class TodoItem {
     constructor(name, dueDate, priority, description) {
         this.name = name;
         this.dueDate = parse(dueDate, "MM/dd/yyyy", new Date());
-        this.priority = 4;
+        this.priority = priority;
         this.description = description;
-    }
-    
-    editName(newName) {
-        this.name = newName;
+        this.note = "";
     }
 
     editDate(newDate) {
@@ -28,5 +26,11 @@ export default class TodoItem {
     editDescription(newDescription) {
         this.description = newDescription;
     }
+
+    editNote(newNote) {
+        this.note = newNote;
+    }
 }
+
+TodoItem.prototype.add(editName);
 
