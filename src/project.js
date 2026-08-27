@@ -1,15 +1,27 @@
-import TodoItem from "./todo";
-import { editName } from "./user";
+import Todo from "./todo";
+import * as components from "./components";
 
-export default class ProjectItem {
+export default class Project {
 
     constructor(name) {
         this.name = name;
-        this.taskList = [];
+        this.todoList = components.listComponent();
+    }
+
+    addTask(taskName, dueDate, priority, description) {
+        this.todolist.add(new Todo(taskName, dueDate, priority, description))
+    }
+
+    removeTask(taskName) {
+        this.todoList.remove(taskName);
+    }
+
+    listTasks() {
+        this.todoList.listAll();
     }
 }
 
-ProjectItem.prototype.add(editName);
+Project.prototype.add(editName());  
 
 
 

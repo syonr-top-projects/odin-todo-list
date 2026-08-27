@@ -1,10 +1,8 @@
 import { format, compareAsc, parse } from "date-fns";
-import { editName } from "./user";
+import * as components from "./components";
+import SubTodo from "./subTodo";
 
-export default class TodoItem {
-
-    // dueDate must be in "MM/dd/yyyy" format
-    // priority 1(highest) - 4(lowest)
+export default class Todo {
 
     // TODO: Add error checks for the parameters
     constructor(name, dueDate, priority, description) {
@@ -12,25 +10,25 @@ export default class TodoItem {
         this.dueDate = parse(dueDate, "MM/dd/yyyy", new Date());
         this.priority = priority;
         this.description = description;
-        this.note = "";
+        this.subTodoList = components.listComponent();
     }
 
-    editDate(newDate) {
-        this.dueDate = parse(newDate, "MM/dd/yyyy", new Date());
+    addSubTodo(name, dueDate, priority, description) {
+        this.subTodoList.add(new SubTodo(name, dueDate, priority, description));
+    } 
+
+    removeSubTodo(subTodoName) {
+        this.subTodoList.remove(subTodoName);
     }
 
-    editPriority(newPriority) {
-        this.priority = newPriority;
+    listSubTodos() {
+        this.subTodoList.listAll();
     }
 
-    editDescription(newDescription) {
-        this.description = newDescription;
-    }
-
-    editNote(newNote) {
-        this.note = newNote;
-    }
 }
 
-TodoItem.prototype.add(editName);
+Todo.prototype.add(editName());
+Todo.prototype.add(editDueDate());
+Todo.prototype.add(editPriority());
+Todo.prototype.add(editDescription());
 
