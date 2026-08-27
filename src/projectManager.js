@@ -8,8 +8,8 @@ export default class ProjectManager {
         this.projectList = components.listComponent();
     }
 
-    addProject(projectName) {
-        this.projectList.add(new Project(projectName));
+    addProject(projectObject) {
+        this.projectList.add(projectObject);
     }
 
     removeProject(projectName) {
