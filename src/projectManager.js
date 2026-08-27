@@ -3,7 +3,8 @@ import * as components from "./components";
 
 export default class ProjectManager {
 
-    constructor() {
+    constructor(name) {
+        this.name = name;
         this.projectList = components.listComponent();
     }
 
@@ -21,6 +22,7 @@ export default class ProjectManager {
 
 }
 
+Object.assign(ProjectManager.prototype, components.editName);
 
 
 

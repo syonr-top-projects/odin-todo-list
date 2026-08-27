@@ -5,16 +5,16 @@ import SubTodo from "./subTodo";
 export default class Todo {
 
     // TODO: Add error checks for the parameters
-    constructor(name, dueDate, priority, description) {
+    constructor(name, dueDateStr, priority, description) {
         this.name = name;
-        this.dueDate = parse(dueDate, "MM/dd/yyyy", new Date());
+        this.dueDate = parse(dueDateStr, "PP", new Date());
         this.priority = priority;
         this.description = description;
         this.subTodoList = components.listComponent();
     }
 
-    addSubTodo(name, dueDate, priority, description) {
-        this.subTodoList.add(new SubTodo(name, dueDate, priority, description));
+    addSubTodo(subTodoObject) {
+        this.subTodoList.add(subTodoObject);
     } 
 
     removeSubTodo(subTodoName) {
@@ -27,8 +27,8 @@ export default class Todo {
 
 }
 
-Todo.prototype.add(editName());
-Todo.prototype.add(editDueDate());
-Todo.prototype.add(editPriority());
-Todo.prototype.add(editDescription());
+Object.assign(Todo.prototype, components.editName);
+Object.assign(Todo.prototype, components.editDueDate);
+Object.assign(Todo.prototype, components.editPriority);
+Object.assign(Todo.prototype, components.editDescription);
 

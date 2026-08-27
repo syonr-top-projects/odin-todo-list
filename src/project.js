@@ -8,20 +8,20 @@ export default class Project {
         this.todoList = components.listComponent();
     }
 
-    addTask(taskName, dueDate, priority, description) {
-        this.todolist.add(new Todo(taskName, dueDate, priority, description))
+    addTodo(todoObject) {
+        this.todoList.add(todoObject);
     }
 
-    removeTask(taskName) {
+    removeTodo(taskName) {
         this.todoList.remove(taskName);
     }
 
-    listTasks() {
+    listTodos() {
         this.todoList.listAll();
     }
 }
 
-Project.prototype.add(editName());  
+Object.assign(Project.prototype, components.editName);
 
 
 
