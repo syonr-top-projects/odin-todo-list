@@ -1,10 +1,9 @@
-import Project from "./project";
-import * as components from "./components";
+import * as components from "./logicComponents";
+import { loadData, saveData } from "./localStorage";
 
 export default class ProjectManager {
 
-    constructor(name) {
-        this.name = name;
+    constructor() {
         this.projectList = components.listComponent();
     }
 
@@ -22,7 +21,6 @@ export default class ProjectManager {
 
 }
 
-Object.assign(ProjectManager.prototype, components.editName);
 
 
 

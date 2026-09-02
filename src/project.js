@@ -1,10 +1,12 @@
 import Todo from "./todo";
-import * as components from "./components";
+import * as components from "./logicComponents";
+import { loadData, saveData } from "./localStorage";
 
 export default class Project {
 
-    constructor(name) {
+    constructor(name, description) {
         this.name = name;
+        this.description = description;
         this.todoList = components.listComponent();
     }
 
@@ -22,6 +24,7 @@ export default class Project {
 }
 
 Object.assign(Project.prototype, components.editName);
+Object.assign(Project.prototype, components.editDescription);
 
 
 

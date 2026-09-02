@@ -1,5 +1,5 @@
 import { format, compareAsc, parse } from "date-fns";
-import * as components from "./components";
+import * as components from "./logicComponents";
 
 export default class SubTodo {
 

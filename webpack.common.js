@@ -29,7 +29,7 @@ export default {
       {
         test: /\.(png|svg|jpg|jpeg|gif|otf)$/i,
         type: "asset/resource",
-      },
+      }
     ],
   },
   output: {

@@ -1,32 +1,40 @@
 import "./styles.css";
-import { format, compareAsc, parse } from "date-fns";
-import Todo  from "./todo";
-import SubTodo  from "./subTodo";
-import Project from "./project";
+import { createSidebar, populateSideBar } from "./sidebar";
 import ProjectManager from "./projectManager";
+import Project from "./project";
+import Todo from "./todo";
+import SubTodo from "./subTodo";
+import startingData from "./startingData.json"
 
 if (process.env.NODE_ENV !== 'production') {
     console.log('Looks like we are in development mode!');
 }
 
-const mainPM = new ProjectManager("Syon");
-const body = document.querySelector("body");
+const app = document.querySelector("#app");
 
-const welcomeText = document.createElement("p");
-welcomeText.textContent = `Welcome ${mainPM.name}`;
-body.appendChild(welcomeText);
+const manager = new ProjectManager();
+const data = startingData;
+populate(manager, data);
 
-const floodProject = new Project("FloodWatch");
+const sidebar = createSidebar(manager);
 
-const taskOne = new Todo("Create Project Report", "Aug 28 2026", 1);
-const taskTwo = new Todo("Figure Out Tech Stack", "Aug 28 2026", 1);
-const subtaskOne = new SubTodo("Schedule a Meeting", "Aug 27 2026", 2);
+app.appendChild(sidebar);
 
-taskTwo.addSubTodo(subtaskOne);
+function populate(projectManager, data) {
 
-floodProject.addTodo(taskOne);
-floodProject.addTodo(taskTwo);
+    data.projects.forEach(project => {
+        const p = new Project(project.name, project.description);
 
-taskTwo.listSubTodos();
-floodProject.listTodos();
-
+        project.todoList.forEach(todo => {
+            const t = new Todo(todo.name, todo.dueDateStr, todo.priority, todo.description);
+            
+            todo.subTodoList.forEach(subTodo => {
+                const sT = new SubTodo(subTodo.name, subTodo.dueDateStr, subTodo.priority, subTodo.description);
+                
+                t.addSubTodo(sT);
+            });
+            p.addTodo(t);
+        })
+        projectManager.addProject(p)
+    })
+} 
