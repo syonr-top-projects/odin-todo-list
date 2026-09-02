@@ -7,22 +7,26 @@ export function createSidebar(projectManager) {
 
     // renderTasksByTime Content
 
-    const tasksByTimeList = document.createElement("div");
+    const tasksSection = document.createElement("div");
 
     const todayButton = document.createElement("button");
+    todayButton.textContent = "Today";
 
     todayButton.addEventListener("click", (e) => {
         console.log("Render main with today's tasks");
     })
 
     const weekButton = document.createElement("button");
+    weekButton.textContent = "This Week";
 
     weekButton.addEventListener("click", (e) => {
         console.log("Render main with this weeks tasks");
     })
 
-    tasksByTimeList.appendChild(todayButton);
-    tasksByTimeList.appendChild(weekButton);
+    tasksSection.appendChild(todayButton);
+    tasksSection.appendChild(weekButton);
+    
+    sidebar.appendChild(tasksSection);
 
     // projectList content
 
