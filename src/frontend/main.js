@@ -116,7 +116,7 @@ function addTodoForm(projectManager, project, todoList) {
         project.add(newTodo);
         save(projectManager);
 
-        renderTodos(project, todoList);
+        renderTodos(projectManager, project, todoList);
 
         addTodoForm.remove();
     })
