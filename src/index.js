@@ -13,13 +13,15 @@ if (process.env.NODE_ENV !== 'production') {
 
 const app = document.querySelector("#app");
 
-createSampleData();
-
 const manager = load();
 console.log(manager);
 
-const sidebar = createSidebar(manager);
+const mainContent = document.createElement("div");
+mainContent.id = "mainContent";
+
+const sidebar = createSidebar(manager, mainContent);
 app.appendChild(sidebar);
+app.appendChild(mainContent);
 
 function createSampleData() {
 
@@ -27,9 +29,9 @@ function createSampleData() {
 
     const projectOne = new Project("sample project one", "sample project one");
 
-    const dueDateOne = parse("Sep 07, 2026", "PP", new Date());
-    const dueDateTwo = parse("Sep 06, 2026", "PP", new Date());
-    const dueDateThree = parse("Sep 05, 2026", "PP", new Date());
+    const dueDateOne = parse("09-07-2026", "MM-dd-yyyy", new Date());
+    const dueDateTwo = parse("09-06-2026", "MM-dd-yyyy", new Date());
+    const dueDateThree = parse("09-05-2026", "MM-dd-yyyy", new Date());
 
     const todoOne = new Todo("sample todo one", dueDateThree, 1, "sample todo one");
     const subTodoOne = new SubTodo("sample subTodo one", dueDateOne, 2, "sample subTodo one");

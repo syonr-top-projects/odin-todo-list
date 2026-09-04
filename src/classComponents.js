@@ -9,5 +9,5 @@ export function remove(objName) {
 }
 
 export function editDueDate(dateStr) {
-    this.dueDate = parse(dateStr, "PP", new Date());
+    this.dueDate = parse(dateStr, "MM-dd-yyyy", new Date());
 }

@@ -1,7 +1,8 @@
 import { save, load } from "./localStorage";
 import Project from "./project";
+import { renderProject } from "./main";
 
-export function createSidebar(projectManager) {
+export function createSidebar(projectManager, mainContent) {
     const sidebar = document.createElement("div");
     sidebar.id = "sidebar";
 
@@ -33,46 +34,46 @@ export function createSidebar(projectManager) {
     const projectSection = document.createElement("div");
     projectSection.id = "projectSection";
 
-    const projectList = document.createElement("div");
-    projectList.id = "sidebarProjectList";
-
     const projectSectionTitle = document.createElement("div");
     projectSectionTitle.id = "projectSectionTitle";
     projectSectionTitle.textContent = "My Projects";
-    
-    populateSideBar(projectManager, projectList);
-
-    const addProjectbutton = document.createElement("button");
-    addProjectbutton.id = "addProject";
-
-    addProjectbutton.textContent = "Add Project";
-
-    addProjectbutton.addEventListener("click", () => addProjectForm(projectManager, projectList));
 
     projectSection.appendChild(projectSectionTitle);
+
+    const projectList = document.createElement("div");
+
+    renderProjects(projectManager, projectList, mainContent);
+
     projectSection.appendChild(projectList);
+    
+    const addProjectbutton = document.createElement("button");
+    addProjectbutton.id = "addProject";
+    addProjectbutton.textContent = "Add Project";
+    addProjectbutton.addEventListener("click", () => addProjectForm(projectManager, projectList, mainContent));
+    
     projectSection.appendChild(addProjectbutton);
-
-
+    
     sidebar.appendChild(projectSection);
 
     return sidebar;
 }
 
-export function populateSideBar(projectManager, pL) {
+export function renderProjects(projectManager, projectList, mainContent) {
 
-    pL.replaceChildren();
+    projectList.replaceChildren();
 
     projectManager.list.forEach(project => {
         const projectButton = document.createElement("button");
-        projectButton.classList.add("projectButton");
+        projectButton.classList.add("project");
         projectButton.textContent = project.name;
-        pL.appendChild(projectButton);
+        projectButton.addEventListener("click", () => {
+            mainContent.replaceChildren(renderProject(projectManager, project));
+        });
+        projectList.appendChild(projectButton);
     });
 }
 
-function addProjectForm(projectManager, pL) {
-
+function addProjectForm(projectManager, projectList, mainContent) {
     const addProjectForm = document.createElement("form");
     const addName = document.createElement("input");
     addName.type = "text";
@@ -102,7 +103,7 @@ function addProjectForm(projectManager, pL) {
         projectManager.add(newProject);
         save(projectManager);
 
-        populateSideBar(projectManager, pL);
+        renderProjects(projectManager, projectList, mainContent);
 
         addProjectForm.remove()
     })

@@ -5,3 +5,7 @@ body {
 #sidebar {
     outline: 2px solid red;
 }
+
+#main {
+    outline: 2px solid blue;
+}
