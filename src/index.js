@@ -18,6 +18,9 @@ createSampleData();
 const manager = load();
 console.log(manager);
 
+const sidebar = createSidebar(manager);
+app.appendChild(sidebar);
+
 function createSampleData() {
 
     const manager = new ProjectManager();

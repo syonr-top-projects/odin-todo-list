@@ -1,4 +1,5 @@
 import { save, load } from "./localStorage";
+import Project from "./project";
 
 export function createSidebar(projectManager) {
     const sidebar = document.createElement("div");
@@ -38,7 +39,8 @@ export function createSidebar(projectManager) {
     const projectSectionTitle = document.createElement("div");
     projectSectionTitle.id = "projectSectionTitle";
     projectSectionTitle.textContent = "My Projects";
-    // populate Sidebar
+    
+    populateSideBar(projectManager, projectList);
 
     const addProjectbutton = document.createElement("button");
     addProjectbutton.id = "addProject";
@@ -59,7 +61,14 @@ export function createSidebar(projectManager) {
 
 export function populateSideBar(projectManager, pL) {
 
-    console.log("populate sidebar");
+    pL.replaceChildren();
+
+    projectManager.list.forEach(project => {
+        const projectButton = document.createElement("button");
+        projectButton.classList.add("projectButton");
+        projectButton.textContent = project.name;
+        pL.appendChild(projectButton);
+    });
 }
 
 function addProjectForm(projectManager, pL) {
@@ -90,7 +99,7 @@ function addProjectForm(projectManager, pL) {
         const projectDescription = addDescription.value;
 
         const newProject = new Project(projectName, projectDescription);
-        projectManager.addProject(newProject);
+        projectManager.add(newProject);
         save(projectManager);
 
         populateSideBar(projectManager, pL);
