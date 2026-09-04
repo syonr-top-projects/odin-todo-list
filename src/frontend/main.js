@@ -1,17 +1,18 @@
 import { parse } from "date-fns";
 import { save } from "../backend/localStorage";
 import Todo from "../backend/todo";
+import { renderTodo } from "./todoPopup";
 
 export function renderProject(projectManager, project) {
     const todoSection = document.createElement("div");
-    todoSection.id = "todoSection";
+    todoSection.id = "todo-section";
 
     const projectTitle = document.createElement("div");
-    projectTitle.id = "projectTitle";
+    projectTitle.id = "project-title";
     projectTitle.textContent = project.name;
 
     const projectDescription = document.createElement("div");
-    projectDescription.id = "projectDescription";
+    projectDescription.id = "project-description";
     projectDescription.textContent = project.description;
 
     todoSection.appendChild(projectTitle);
@@ -19,12 +20,12 @@ export function renderProject(projectManager, project) {
 
     const todoList = document.createElement("div");
 
-    renderTodos(project, todoList);
+    renderTodos(projectManager, project, todoList);
 
     todoSection.appendChild(todoList);
 
     const addTodoButton = document.createElement("button");
-    addTodoButton.id = "addTodo";
+    addTodoButton.id = "add-todo";
     addTodoButton.textContent = "Add Todo";
     addTodoButton.addEventListener("click", () => addTodoForm(projectManager, project, todoList));
 
@@ -33,7 +34,7 @@ export function renderProject(projectManager, project) {
     return todoSection;
 }
 
-export function renderTodos(project, todoList) {
+export function renderTodos(projectManager, project, todoList) {
 
     todoList.replaceChildren();
 
@@ -42,7 +43,7 @@ export function renderTodos(project, todoList) {
         todoButton.classList.add("todo");
         todoButton.textContent = todo.name;
 
-        todoButton.addEventListener("click", renderTodo())
+        todoButton.addEventListener("click", () => renderTodo(projectManager, project, todo))
 
         todoList.appendChild(todoButton);
     });

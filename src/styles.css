@@ -3,9 +3,21 @@ body {
 }
 
 #sidebar {
-    outline: 2px solid red;
+    background-color: rgb(225, 143, 143);
 }
 
-#todoSection {
-    outline: 2px solid blue;
+#todo-section {
+    background-color: bisque;
+}
+
+#todo-pop-up {
+    background-color: rgb(139, 95, 139);
+}
+
+#todo-main-section {
+    background-color: aqua;
+}
+
+#todo-sidebar {
+    background-color: yellow;
 }

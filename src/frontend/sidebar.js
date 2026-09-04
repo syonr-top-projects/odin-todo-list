@@ -6,36 +6,13 @@ export function createSidebar(projectManager, mainContent) {
     const sidebar = document.createElement("div");
     sidebar.id = "sidebar";
 
-    // renderTasksByTime Content
-
-    const tasksSection = document.createElement("div");
-
-    const todayButton = document.createElement("button");
-    todayButton.textContent = "Today";
-
-    todayButton.addEventListener("click", (e) => {
-        console.log("Render main with today's tasks");
-    })
-
-    const weekButton = document.createElement("button");
-    weekButton.textContent = "This Week";
-
-    weekButton.addEventListener("click", (e) => {
-        console.log("Render main with this weeks tasks");
-    })
-
-    tasksSection.appendChild(todayButton);
-    tasksSection.appendChild(weekButton);
-    
-    sidebar.appendChild(tasksSection);
-
     // projectList content
 
     const projectSection = document.createElement("div");
-    projectSection.id = "projectSection";
+    projectSection.id = "project-section";
 
     const projectSectionTitle = document.createElement("div");
-    projectSectionTitle.id = "projectSectionTitle";
+    projectSectionTitle.id = "project-section-title";
     projectSectionTitle.textContent = "My Projects";
 
     projectSection.appendChild(projectSectionTitle);
@@ -47,7 +24,7 @@ export function createSidebar(projectManager, mainContent) {
     projectSection.appendChild(projectList);
     
     const addProjectbutton = document.createElement("button");
-    addProjectbutton.id = "addProject";
+    addProjectbutton.id = "add-project";
     addProjectbutton.textContent = "Add Project";
     addProjectbutton.addEventListener("click", () => addProjectForm(projectManager, projectList, mainContent));
     
