@@ -47,7 +47,10 @@ export function renderTodos(project, todoList) {
 }
 
 function addTodoForm(projectManager, project, todoList) {
+    if (document.querySelector("#todo-form")) return;
+
     const addTodoForm = document.createElement("form");
+    addTodoForm.id = "todo-form";
 
     const addNameLabel = document.createElement("label");
     addNameLabel.htmlFor = "name";
@@ -115,6 +118,14 @@ function addTodoForm(projectManager, project, todoList) {
         addTodoForm.remove();
     })
 
+    const cancelButton = document.createElement("button");
+    cancelButton.textContent = "Cancel";
+
+    cancelButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        addTodoForm.remove();
+    })
+    
     addTodoForm.appendChild(addNameLabel);
     addTodoForm.appendChild(addName);
     addTodoForm.appendChild(addDueDateLabel);
@@ -123,6 +134,7 @@ function addTodoForm(projectManager, project, todoList) {
     addTodoForm.appendChild(addDescriptionLabel);
     addTodoForm.appendChild(addDescription);
     addTodoForm.appendChild(submitForm);
+    addTodoForm.appendChild(cancelButton);
     document.body.appendChild(addTodoForm);
 
 }

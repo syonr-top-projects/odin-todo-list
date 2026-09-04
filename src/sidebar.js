@@ -74,7 +74,9 @@ export function renderProjects(projectManager, projectList, mainContent) {
 }
 
 function addProjectForm(projectManager, projectList, mainContent) {
+    if (document.querySelector("#project-form")) return;
     const addProjectForm = document.createElement("form");
+    addProjectForm.id = "project-form";
     const addName = document.createElement("input");
     addName.type = "text";
     addName.required = true;
@@ -108,11 +110,20 @@ function addProjectForm(projectManager, projectList, mainContent) {
         addProjectForm.remove()
     })
 
+    const cancelButton = document.createElement("button");
+    cancelButton.textContent = "Cancel";
+
+    cancelButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        addProjectForm.remove();
+    })
+
     addProjectForm.appendChild(addNameLabel);
     addProjectForm.appendChild(addName);
     addProjectForm.appendChild(addDescriptionLabel);
     addProjectForm.appendChild(addDescription);
     addProjectForm.appendChild(submitForm);
+    addProjectForm.appendChild(cancelButton);
     document.body.appendChild(addProjectForm);
 
 }
