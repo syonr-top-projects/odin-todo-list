@@ -1,3 +1,7 @@
 body {
     background-color: lightblue;
 }
+
+#sidebar {
+    outline: 2px solid red;
+}

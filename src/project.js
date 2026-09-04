@@ -1,30 +1,17 @@
-import Todo from "./todo";
-import * as components from "./logicComponents";
-import { loadData, saveData } from "./localStorage";
+import * as components from "./classComponents";
 
 export default class Project {
 
     constructor(name, description) {
         this.name = name;
         this.description = description;
-        this.todoList = components.listComponent();
-    }
-
-    addTodo(todoObject) {
-        this.todoList.add(todoObject);
-    }
-
-    removeTodo(taskName) {
-        this.todoList.remove(taskName);
-    }
-
-    listTodos() {
-        this.todoList.listAll();
+        this.list = [];
     }
 }
 
-Object.assign(Project.prototype, components.editName);
-Object.assign(Project.prototype, components.editDescription);
-
+Object.assign(Project.prototype, { 
+    add : components.add,
+    remove : components.remove
+});
 
 

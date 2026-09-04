@@ -1,34 +1,20 @@
-import { format, compareAsc, parse } from "date-fns";
-import * as components from "./logicComponents";
-import SubTodo from "./subTodo";
+import * as components from "./classComponents";
 
 export default class Todo {
 
-    // TODO: Add error checks for the parameters
-    constructor(name, dueDateStr, priority, description) {
+    constructor(name, dueDate, priority, description) {
         this.name = name;
-        this.dueDate = parse(dueDateStr, "PP", new Date());
-        this.priority = priority;
+        this.dueDate = dueDate; //must be a Date obj
+        this.priority = priority; //must be 1-4
         this.description = description;
-        this.subTodoList = components.listComponent();
+        this.list = [];
     }
-
-    addSubTodo(subTodoObject) {
-        this.subTodoList.add(subTodoObject);
-    } 
-
-    removeSubTodo(subTodoName) {
-        this.subTodoList.remove(subTodoName);
-    }
-
-    listSubTodos() {
-        this.subTodoList.listAll();
-    }
-
 }
 
-Object.assign(Todo.prototype, components.editName);
-Object.assign(Todo.prototype, components.editDueDate);
-Object.assign(Todo.prototype, components.editPriority);
-Object.assign(Todo.prototype, components.editDescription);
+Object.assign(Todo.prototype, { 
+    add : components.add, 
+    remove : components.remove,
+    editDueDate : components.editDueDate 
+});
+
 

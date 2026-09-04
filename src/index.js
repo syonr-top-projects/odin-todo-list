@@ -4,7 +4,8 @@ import ProjectManager from "./projectManager";
 import Project from "./project";
 import Todo from "./todo";
 import SubTodo from "./subTodo";
-import startingData from "./startingData.json"
+import { save, load } from "./localStorage";
+import { format, parse } from "date-fns";
 
 if (process.env.NODE_ENV !== 'production') {
     console.log('Looks like we are in development mode!');
@@ -12,29 +13,41 @@ if (process.env.NODE_ENV !== 'production') {
 
 const app = document.querySelector("#app");
 
-const manager = new ProjectManager();
-const data = startingData;
-populate(manager, data);
+createSampleData();
 
-const sidebar = createSidebar(manager);
+const manager = load();
+console.log(manager);
 
-app.appendChild(sidebar);
+function createSampleData() {
 
-function populate(projectManager, data) {
+    const manager = new ProjectManager();
 
-    data.projects.forEach(project => {
-        const p = new Project(project.name, project.description);
+    const projectOne = new Project("sample project one", "sample project one");
 
-        project.todoList.forEach(todo => {
-            const t = new Todo(todo.name, todo.dueDateStr, todo.priority, todo.description);
-            
-            todo.subTodoList.forEach(subTodo => {
-                const sT = new SubTodo(subTodo.name, subTodo.dueDateStr, subTodo.priority, subTodo.description);
-                
-                t.addSubTodo(sT);
-            });
-            p.addTodo(t);
-        })
-        projectManager.addProject(p)
-    })
-} 
+    const dueDateOne = parse("Sep 07, 2026", "PP", new Date());
+    const dueDateTwo = parse("Sep 06, 2026", "PP", new Date());
+    const dueDateThree = parse("Sep 05, 2026", "PP", new Date());
+
+    const todoOne = new Todo("sample todo one", dueDateThree, 1, "sample todo one");
+    const subTodoOne = new SubTodo("sample subTodo one", dueDateOne, 2, "sample subTodo one");
+
+    const projectTwo = new Project("sample project two", "hi");
+
+    const todoTwo = new Todo("sample todo two", dueDateTwo, 2, "sample todo two");
+    const todoThree = new Todo("sample todo three", dueDateThree, 3, "sample todo three");
+
+    const subTodoTwo = new SubTodo("sample subTodo two", dueDateOne, 4, "sample subTodo two");
+
+    todoOne.add(subTodoOne);
+    projectOne.add(todoOne);
+
+    todoThree.add(subTodoTwo);
+    projectTwo.add(todoTwo);
+    projectTwo.add(todoThree);
+
+    manager.add(projectOne);
+    manager.add(projectTwo)
+
+    save(manager);
+
+}
