@@ -1,5 +1,5 @@
-import { save, load } from "./localStorage";
-import Project from "./project";
+import { save, load } from "../backend/localStorage";
+import Project from "../backend/project";
 import { renderProject } from "./main";
 
 export function createSidebar(projectManager, mainContent) {
@@ -123,7 +123,7 @@ function addProjectForm(projectManager, projectList, mainContent) {
     addProjectForm.appendChild(addDescriptionLabel);
     addProjectForm.appendChild(addDescription);
     addProjectForm.appendChild(submitForm);
-    addProjectForm.appendChild(cancelButton);
+    addProjectForm.appendChild(cancelButton);    
     document.body.appendChild(addProjectForm);
 
 }

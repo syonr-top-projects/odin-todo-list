@@ -1,6 +1,6 @@
 import { parse } from "date-fns";
-import { save } from "./localStorage";
-import Todo from "./todo";
+import { save } from "../backend/localStorage";
+import Todo from "../backend/todo";
 
 export function renderProject(projectManager, project) {
     const todoSection = document.createElement("div");
@@ -41,6 +41,8 @@ export function renderTodos(project, todoList) {
         const todoButton = document.createElement("button");
         todoButton.classList.add("todo");
         todoButton.textContent = todo.name;
+
+        todoButton.addEventListener("click", renderTodo())
 
         todoList.appendChild(todoButton);
     });

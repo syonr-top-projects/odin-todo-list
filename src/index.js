@@ -1,10 +1,10 @@
 import "./styles.css";
-import { createSidebar, populateSideBar } from "./sidebar";
-import ProjectManager from "./projectManager";
-import Project from "./project";
-import Todo from "./todo";
-import SubTodo from "./subTodo";
-import { save, load } from "./localStorage";
+import { createSidebar } from "./frontend/sidebar";
+import ProjectManager from "./backend/projectManager";
+import Project from "./backend/project";
+import Todo from "./backend/todo";
+import SubTodo from "./backend/subTodo";
+import { save, load } from "./backend/localStorage";
 import { format, parse } from "date-fns";
 
 if (process.env.NODE_ENV !== 'production') {
