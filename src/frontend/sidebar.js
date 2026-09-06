@@ -38,15 +38,27 @@ export function createSidebar(projectManager, mainContent) {
 export function renderProjects(projectManager, projectList, mainContent) {
 
     projectList.replaceChildren();
+    mainContent.replaceChildren();
 
     projectManager.list.forEach(project => {
-        const projectButton = document.createElement("button");
-        projectButton.classList.add("project");
-        projectButton.textContent = project.name;
-        projectButton.addEventListener("click", () => {
+        const projectBlock = document.createElement("div");
+        projectBlock.id = "project-block";
+
+        const renderProjectButton = document.createElement("button");
+        renderProjectButton.classList.add("project");
+        renderProjectButton.textContent = project.name;
+        renderProjectButton.addEventListener("click", () => {
             mainContent.replaceChildren(renderProject(projectManager, project));
         });
-        projectList.appendChild(projectButton);
+        projectBlock.appendChild(renderProjectButton);
+
+        const removeProjectButton = document.createElement("button"); 
+        removeProjectButton.id = "remove-project";
+        removeProjectButton.textContent = "X";
+        removeProjectButton.addEventListener("click", () => removeProject(projectManager, project, projectList, mainContent));
+        projectBlock.appendChild(removeProjectButton);
+
+        projectList.appendChild(projectBlock);
     });
 }
 
@@ -105,4 +117,19 @@ function addProjectForm(projectManager, projectList, mainContent) {
 
 }
 
+function removeProject(projectManager, project, projectListNode, mainContent) {
+    projectManager.remove(project.name);
+    save(projectManager);
+
+    // get top if not top just close all
+    const projectList = projectManager.list;
+
+    if (projectList.length !== 0) {
+        mainContent.replaceChildren(
+            renderProject(projectManager, projectList[0])
+        );
+    }
+
+    renderProjects(projectManager, projectListNode, mainContent);
+}
 

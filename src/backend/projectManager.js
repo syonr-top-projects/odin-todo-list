@@ -5,7 +5,7 @@ export default class ProjectManager {
     constructor() {
         this.list = []
     }
-
+    
 }
 
 Object.assign(ProjectManager.prototype, { 

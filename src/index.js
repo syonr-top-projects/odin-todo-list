@@ -17,7 +17,7 @@ const manager = load();
 console.log(manager);
 
 const mainContent = document.createElement("div");
-mainContent.id = "mainContent";
+mainContent.id = "main-content";
 
 const sidebar = createSidebar(manager, mainContent);
 app.appendChild(sidebar);

@@ -1,4 +1,6 @@
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
+import SubTodo from "../backend/subTodo";
+import { save } from "../backend/localStorage";
 
 export function renderTodo(projectManager, project, todo) {
     
@@ -143,7 +145,7 @@ function addSubTodoForm(projectManager, todo, subTodoList) {
         );
         const todoDescription = addDescription.value;
 
-        const newSubTodo = new subTodo(todoName, todoDueDate, todoPriority, todoDescription);
+        const newSubTodo = new SubTodo(todoName, todoDueDate, todoPriority, todoDescription);
         todo.add(newSubTodo);
         save(projectManager);
 
