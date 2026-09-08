@@ -19,6 +19,7 @@ export function renderProject(projectManager, project) {
     todoSection.appendChild(projectDescription);
 
     const todoList = document.createElement("div");
+    todoList.id = "todo-list";
 
     renderTodos(projectManager, project, todoList);
 
@@ -39,13 +40,22 @@ export function renderTodos(projectManager, project, todoList) {
     todoList.replaceChildren();
 
     project.list.forEach(todo => {
+        const todoBlock = document.createElement("div");
+        todoBlock.id = "todo-block";
+
         const todoButton = document.createElement("button");
         todoButton.classList.add("todo");
         todoButton.textContent = todo.name;
-
         todoButton.addEventListener("click", () => renderTodo(projectManager, project, todo))
+        todoBlock.appendChild(todoButton);
 
-        todoList.appendChild(todoButton);
+        const removeTodoButton = document.createElement("button"); 
+        removeTodoButton.id = "remove-todo";
+        removeTodoButton.textContent = "O";
+        removeTodoButton.addEventListener("click", () => removeTodo(projectManager, project, todo, todoList));
+        todoBlock.appendChild(removeTodoButton);
+
+        todoList.appendChild(todoBlock);
     });
 }
 
@@ -140,4 +150,20 @@ function addTodoForm(projectManager, project, todoList) {
     addTodoForm.appendChild(cancelButton);
     document.body.appendChild(addTodoForm);
 
+}
+
+function removeTodo(projectManager, project, todo, todoListNode) {
+    project.remove(todo.name);
+    save(projectManager);
+
+    // get top if not top just close all
+    const todoList = project.list;
+
+    if (todoList.length !== 0) {
+        todoListNode.replaceChildren(
+            renderProject(projectManager, todoList[0])
+        );
+    }
+
+    renderTodos(projectManager, project, todoListNode);
 }

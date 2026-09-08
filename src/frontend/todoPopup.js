@@ -21,8 +21,9 @@ export function renderTodo(projectManager, project, todo) {
     todoMainSection.appendChild(todoDescription);
 
     const subTodoList = document.createElement("div");
+    subTodoList.id = "sub-todo-list";
 
-    renderSubTodos(todo, subTodoList);
+    renderSubTodos(projectManager, todo, subTodoList);
 
     todoMainSection.appendChild(subTodoList);
 
@@ -67,20 +68,41 @@ export function renderTodo(projectManager, project, todo) {
     
 }
 
-export function renderSubTodos(todo, subTodoList) {
+export function renderSubTodos(projectManager, todo, subTodoList) {
 
     subTodoList.replaceChildren();
 
     todo.list.forEach(subTodo => {
-        const subTodoButton = document.createElement("button");
-        subTodoButton.classList.add("subTodo");
-        subTodoButton.textContent = subTodo.name;
+        const subTodoBlock = document.createElement("div");
+        subTodoBlock.id = "sub-todo-block";
 
-        subTodoButton.addEventListener("click", console.log("subTodo opens"));
+        const subTodoName = document.createElement("div");
+        subTodoName.textContent = subTodo.name;
 
-        subTodoList.appendChild(subTodoButton);
+        const subTodoDueDate = document.createElement("div");
+        subTodoDueDate.textContent = format(subTodo.dueDate, "MM-dd-yyyy");
+
+        const subTodoPriority = document.createElement("div");
+        subTodoPriority.textContent = subTodo.priority;
+
+        const subTodoDescription = document.createElement("div");
+        subTodoDescription.textContent = subTodo.description;
+
+        subTodoBlock.appendChild(subTodoName);
+        subTodoBlock.appendChild(subTodoDueDate);
+        subTodoBlock.appendChild(subTodoPriority);
+        subTodoBlock.appendChild(subTodoDescription);
+
+        const removeSubTodoButton = document.createElement("button"); 
+        removeSubTodoButton.id = "remove-sub-todo";
+        removeSubTodoButton.textContent = "O";
+        removeSubTodoButton.addEventListener("click", () => removeSubTodo(projectManager, todo, subTodo, subTodoList));
+        subTodoBlock.appendChild(removeSubTodoButton);
+        
+        subTodoList.appendChild(subTodoBlock)
     });
 }
+
 
 function addSubTodoForm(projectManager, todo, subTodoList) {
     if (document.querySelector("#sub-todo-form")) return;
@@ -149,7 +171,7 @@ function addSubTodoForm(projectManager, todo, subTodoList) {
         todo.add(newSubTodo);
         save(projectManager);
 
-        renderSubTodos(todo, subTodoList);
+        renderSubTodos(projectManager, todo, subTodoList);
 
         addSubTodoForm.remove();
     })
@@ -173,4 +195,10 @@ function addSubTodoForm(projectManager, todo, subTodoList) {
     addSubTodoForm.appendChild(cancelButton);
     document.body.appendChild(addSubTodoForm);
 
+}
+
+function removeSubTodo(projectManager, todo, subTodo, subTodoListNode) {
+    todo.remove(subTodo.name);
+    save(projectManager);
+    renderSubTodos(projectManager, todo, subTodoListNode);
 }
