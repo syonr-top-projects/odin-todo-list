@@ -3,10 +3,7 @@ import { save } from "../backend/localStorage";
 import Todo from "../backend/todo";
 import { renderTodo } from "./todoPopup";
 
-export function renderProject(projectManager, project) {
-    const todoSection = document.createElement("div");
-    todoSection.id = "todo-section";
-
+export function renderProject(projectManager, project, todoSection) {
     const projectTitle = document.createElement("div");
     projectTitle.id = "project-title";
     projectTitle.textContent = project.name;
@@ -15,24 +12,17 @@ export function renderProject(projectManager, project) {
     projectDescription.id = "project-description";
     projectDescription.textContent = project.description;
 
-    todoSection.appendChild(projectTitle);
-    todoSection.appendChild(projectDescription);
-
     const todoList = document.createElement("div");
     todoList.id = "todo-list";
 
     renderTodos(projectManager, project, todoList);
-
-    todoSection.appendChild(todoList);
 
     const addTodoButton = document.createElement("button");
     addTodoButton.id = "add-todo";
     addTodoButton.textContent = "Add Todo";
     addTodoButton.addEventListener("click", () => addTodoForm(projectManager, project, todoList));
 
-    todoSection.appendChild(addTodoButton);
-
-    return todoSection;
+    todoSection.replaceChildren(projectTitle, projectDescription, todoList, addTodoButton);
 }
 
 export function renderTodos(projectManager, project, todoList) {
@@ -63,7 +53,7 @@ function addTodoForm(projectManager, project, todoList) {
     if (document.querySelector("#todo-form")) return;
 
     const addTodoForm = document.createElement("form");
-    addTodoForm.id = "todo-form";
+    addTodoForm.classList.add("todo-form");
 
     const addNameLabel = document.createElement("label");
     addNameLabel.htmlFor = "name";
@@ -155,15 +145,6 @@ function addTodoForm(projectManager, project, todoList) {
 function removeTodo(projectManager, project, todo, todoListNode) {
     project.remove(todo.name);
     save(projectManager);
-
-    // get top if not top just close all
-    const todoList = project.list;
-
-    if (todoList.length !== 0) {
-        todoListNode.replaceChildren(
-            renderProject(projectManager, todoList[0])
-        );
-    }
 
     renderTodos(projectManager, project, todoListNode);
 }

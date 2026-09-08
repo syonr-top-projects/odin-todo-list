@@ -108,7 +108,7 @@ function addSubTodoForm(projectManager, todo, subTodoList) {
     if (document.querySelector("#sub-todo-form")) return;
 
     const addSubTodoForm = document.createElement("form");
-    addSubTodoForm.id = "sub-todo-form";
+    addSubTodoForm.classList.add("todo-form");
 
     const addNameLabel = document.createElement("label");
     addNameLabel.htmlFor = "name";

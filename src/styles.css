@@ -1,23 +1,49 @@
 body {
-    background-color: lightblue;
+    margin: 0;
+}
+
+#app {
+    display: flex;
+    margin: 0;
+    width: 100vw;
+    min-height: 100vh;
 }
 
 #sidebar {
     background-color: rgb(225, 143, 143);
+    flex: 0 0 20vw;
 }
 
 #todo-section {
     background-color: bisque;
+    flex: 0 0 80vw;
+}
+
+.todo-form {
+    background-color: aliceblue;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #todo-pop-up {
     background-color: rgb(139, 95, 139);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    width: 30vw;
+    min-height: 60vh;
 }
 
 #todo-main-section {
     background-color: aqua;
+    flex: 0 0 20%;
 }
 
 #todo-sidebar {
     background-color: yellow;
+    flex: 0 0 80%;
 }

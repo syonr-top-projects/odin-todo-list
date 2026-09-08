@@ -27,6 +27,10 @@ export function load() {
         manager.add(p);
     });
 
+    if (manager.list.length === 0) {
+        return null;
+    }
+    
     return manager;
 }
 

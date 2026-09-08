@@ -2,7 +2,7 @@ import { save, load } from "../backend/localStorage";
 import Project from "../backend/project";
 import { renderProject } from "./main";
 
-export function createSidebar(projectManager, mainContent) {
+export function createSidebar(projectManager, todoSection) {
     const sidebar = document.createElement("div");
     sidebar.id = "sidebar";
 
@@ -19,14 +19,14 @@ export function createSidebar(projectManager, mainContent) {
 
     const projectList = document.createElement("div");
 
-    renderProjects(projectManager, projectList, mainContent);
+    renderProjects(projectManager, projectList, todoSection);
 
     projectSection.appendChild(projectList);
     
     const addProjectbutton = document.createElement("button");
     addProjectbutton.id = "add-project";
     addProjectbutton.textContent = "Add Project";
-    addProjectbutton.addEventListener("click", () => addProjectForm(projectManager, projectList, mainContent));
+    addProjectbutton.addEventListener("click", () => addProjectForm(projectManager, projectList, todoSection, projectSection));
     
     projectSection.appendChild(addProjectbutton);
     
@@ -35,10 +35,10 @@ export function createSidebar(projectManager, mainContent) {
     return sidebar;
 }
 
-export function renderProjects(projectManager, projectList, mainContent) {
+export function renderProjects(projectManager, projectList, todoSection) {
 
     projectList.replaceChildren();
-    mainContent.replaceChildren();
+    todoSection.replaceChildren();
 
     projectManager.list.forEach(project => {
         const projectBlock = document.createElement("div");
@@ -48,21 +48,21 @@ export function renderProjects(projectManager, projectList, mainContent) {
         renderProjectButton.classList.add("project");
         renderProjectButton.textContent = project.name;
         renderProjectButton.addEventListener("click", () => {
-            mainContent.replaceChildren(renderProject(projectManager, project));
+            renderProject(projectManager, project, todoSection);
         });
         projectBlock.appendChild(renderProjectButton);
 
         const removeProjectButton = document.createElement("button"); 
         removeProjectButton.id = "remove-project";
         removeProjectButton.textContent = "X";
-        removeProjectButton.addEventListener("click", () => removeProject(projectManager, project, projectList, mainContent));
+        removeProjectButton.addEventListener("click", () => removeProject(projectManager, project, projectList, todoSection));
         projectBlock.appendChild(removeProjectButton);
 
         projectList.appendChild(projectBlock);
     });
 }
 
-function addProjectForm(projectManager, projectList, mainContent) {
+function addProjectForm(projectManager, projectList, todoSection, projectSection) {
     if (document.querySelector("#project-form")) return;
     const addProjectForm = document.createElement("form");
     addProjectForm.id = "project-form";
@@ -94,7 +94,7 @@ function addProjectForm(projectManager, projectList, mainContent) {
         projectManager.add(newProject);
         save(projectManager);
 
-        renderProjects(projectManager, projectList, mainContent);
+        renderProjects(projectManager, projectList, todoSection);
 
         addProjectForm.remove()
     })
@@ -113,11 +113,11 @@ function addProjectForm(projectManager, projectList, mainContent) {
     addProjectForm.appendChild(addDescription);
     addProjectForm.appendChild(submitForm);
     addProjectForm.appendChild(cancelButton);    
-    document.body.appendChild(addProjectForm);
+    projectSection.appendChild(addProjectForm);
 
 }
 
-function removeProject(projectManager, project, projectListNode, mainContent) {
+function removeProject(projectManager, project, projectListNode, todoSection) {
     projectManager.remove(project.name);
     save(projectManager);
 
@@ -125,11 +125,9 @@ function removeProject(projectManager, project, projectListNode, mainContent) {
     const projectList = projectManager.list;
 
     if (projectList.length !== 0) {
-        mainContent.replaceChildren(
-            renderProject(projectManager, projectList[0])
-        );
+        renderProject(projectManager, projectList[0], todoSection);
     }
 
-    renderProjects(projectManager, projectListNode, mainContent);
+    renderProjects(projectManager, projectListNode, todoSection);
 }
 
