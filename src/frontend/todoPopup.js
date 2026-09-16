@@ -1,6 +1,7 @@
 import { format, parse } from "date-fns";
 import SubTodo from "../backend/subTodo";
 import { save } from "../backend/localStorage";
+import { addTodoForm, priorityColor } from "./main.js";
 
 export function renderTodo(projectManager, project, todo) {
     
@@ -13,9 +14,11 @@ export function renderTodo(projectManager, project, todo) {
     const todoMainSection = document.createElement("div");
     todoMainSection.id = "todo-main-section";
     const todoTitle = document.createElement("div");
+    todoTitle.id = "todo-pop-up-title";
     todoTitle.textContent = todo.name;
     const todoDescription = document.createElement("div");
-    todoDescription.textContent = todo.todoDescription;
+    todoDescription.id = "todo-pop-up-description";
+    todoDescription.textContent = todo.description;
 
     todoMainSection.appendChild(todoTitle);
     todoMainSection.appendChild(todoDescription);
@@ -28,7 +31,8 @@ export function renderTodo(projectManager, project, todo) {
     todoMainSection.appendChild(subTodoList);
 
     const cancelButton = document.createElement("button");
-    cancelButton.textContent = "Cancel";
+    cancelButton.id = "close-todo";
+    cancelButton.textContent = "Close";
 
     cancelButton.addEventListener("click", (e) => {
         e.preventDefault();
@@ -36,9 +40,9 @@ export function renderTodo(projectManager, project, todo) {
     })
 
     const addSubTodobutton = document.createElement("button");
-    addSubTodobutton.id = "add-project";
+    addSubTodobutton.id = "add-sub-todo";
     addSubTodobutton.textContent = "Add Sub-Todo";
-    addSubTodobutton.addEventListener("click", () => addSubTodoForm(projectManager, todo, subTodoList));
+    addSubTodobutton.addEventListener("click", () => addTodoForm(projectManager, todo, subTodoList));
     
     todoMainSection.appendChild(addSubTodobutton);
 
@@ -51,13 +55,17 @@ export function renderTodo(projectManager, project, todo) {
     todoSidebar.id = "todo-sidebar";
 
     const projectTitle = document.createElement("div"); 
+    projectTitle.classList.add("todo-meta");
     projectTitle.textContent = project.name;
 
     const todoDueDate = document.createElement("div");
+    todoDueDate.classList.add("todo-meta");
     todoDueDate.textContent = format(todo.dueDate, "MM-dd-yyyy");
 
     const todoPriority = document.createElement("div");
-    todoPriority.textContent = todo.priority;
+    todoPriority.classList.add("todo-meta");
+    todoPriority.textContent = `Priority ${todo.priority}`;
+    todoPriority.style.color = priorityColor(todo.priority);
 
     todoSidebar.appendChild(projectTitle);
     todoSidebar.appendChild(todoDueDate);
@@ -74,127 +82,37 @@ export function renderSubTodos(projectManager, todo, subTodoList) {
 
     todo.list.forEach(subTodo => {
         const subTodoBlock = document.createElement("div");
-        subTodoBlock.id = "sub-todo-block";
+        subTodoBlock.classList.add("sub-todo-block");
 
-        const subTodoName = document.createElement("div");
-        subTodoName.textContent = subTodo.name;
-
-        const subTodoDueDate = document.createElement("div");
-        subTodoDueDate.textContent = format(subTodo.dueDate, "MM-dd-yyyy");
-
-        const subTodoPriority = document.createElement("div");
-        subTodoPriority.textContent = subTodo.priority;
-
-        const subTodoDescription = document.createElement("div");
-        subTodoDescription.textContent = subTodo.description;
-
-        subTodoBlock.appendChild(subTodoName);
-        subTodoBlock.appendChild(subTodoDueDate);
-        subTodoBlock.appendChild(subTodoPriority);
-        subTodoBlock.appendChild(subTodoDescription);
+        const subTodoInfo = document.createElement("div");
+        subTodoInfo.classList.add("sub-todo-info");
 
         const removeSubTodoButton = document.createElement("button"); 
-        removeSubTodoButton.id = "remove-sub-todo";
+        removeSubTodoButton.classList.add("remove-sub-todo");
         removeSubTodoButton.textContent = "O";
+        removeSubTodoButton.style.color = priorityColor(subTodo.priority);
         removeSubTodoButton.addEventListener("click", () => removeSubTodo(projectManager, todo, subTodo, subTodoList));
-        subTodoBlock.appendChild(removeSubTodoButton);
-        
+        subTodoInfo.appendChild(removeSubTodoButton);
+
+        const subTodoName = document.createElement("div");
+        subTodoName.classList.add("sub-todo-name");
+        subTodoName.textContent = subTodo.name;
+        subTodoInfo.appendChild(subTodoName);
+
+        subTodoBlock.appendChild(subTodoInfo);
+
+        const subTodoDueDate = document.createElement("div");
+        subTodoDueDate.classList.add("sub-todo-due-date");
+        subTodoDueDate.textContent = format(subTodo.dueDate, "MM-dd-yyyy");
+        subTodoBlock.appendChild(subTodoDueDate);
+
+        const subTodoDescription = document.createElement("div");
+        subTodoDescription.classList.add("sub-todo-description");
+        subTodoDescription.textContent = subTodo.description;
+        subTodoBlock.appendChild(subTodoDescription);
+
         subTodoList.appendChild(subTodoBlock)
     });
-}
-
-
-function addSubTodoForm(projectManager, todo, subTodoList) {
-    if (document.querySelector("#sub-todo-form")) return;
-
-    const addSubTodoForm = document.createElement("form");
-    addSubTodoForm.classList.add("todo-form");
-
-    const addNameLabel = document.createElement("label");
-    addNameLabel.htmlFor = "name";
-    addNameLabel.textContent = "Sub-Todo Name:";
-    const addName = document.createElement("input");
-    addName.type = "text";
-    addName.required = true;
-    addName.id = "name";
-
-    const addDueDateLabel = document.createElement("label");
-    addDueDateLabel.htmlFor = "date";
-    addDueDateLabel.textContent = "Due Date:";
-    const addDueDate = document.createElement("input");
-    addDueDate.type = "date";
-    addDueDate.required = true;
-    addDueDate.id = "date";
-
-    const fieldsetPriority = document.createElement("fieldset");
-    const priorityLegend = document.createElement("legend");
-    priorityLegend.textContent = "Priority:";
-    fieldsetPriority.appendChild(priorityLegend);
-
-    [1, 2, 3, 4].forEach(priority => {
-        const label = document.createElement("label");
-        const input = document.createElement("input");
-        input.type = "radio";
-        input.name = "priority";
-        input.value = priority;
-        input.required = true;
-
-        label.appendChild(input);
-        label.append(` ${priority}`);
-        fieldsetPriority.appendChild(label);
-        fieldsetPriority.appendChild(document.createElement("br"));
-    });
-
-    const addDescriptionLabel = document.createElement("label");
-    addDescriptionLabel.htmlFor = "description";
-    addDescriptionLabel.textContent = "Todo Description:";
-    const addDescription = document.createElement("input");
-    addDescription.type = "text";
-    addDescription.required = true;
-    addDescription.id = "description";
-
-    const submitForm = document.createElement("button");
-    submitForm.type = "submit";
-    submitForm.textContent = "Submit";
-
-    addSubTodoForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        const todoName = addName.value;
-        const todoDueDate = parse(addDueDate.value, "yyyy-MM-dd", new Date());
-        const todoPriority = Number(
-            fieldsetPriority.querySelector("input[name='priority']:checked").value
-        );
-        const todoDescription = addDescription.value;
-
-        const newSubTodo = new SubTodo(todoName, todoDueDate, todoPriority, todoDescription);
-        todo.add(newSubTodo);
-        save(projectManager);
-
-        renderSubTodos(projectManager, todo, subTodoList);
-
-        addSubTodoForm.remove();
-    })
-
-    const cancelButton = document.createElement("button");
-    cancelButton.textContent = "Cancel";
-
-    cancelButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        addSubTodoForm.remove();
-    })
-    
-    addSubTodoForm.appendChild(addNameLabel);
-    addSubTodoForm.appendChild(addName);
-    addSubTodoForm.appendChild(addDueDateLabel);
-    addSubTodoForm.appendChild(addDueDate);
-    addSubTodoForm.appendChild(fieldsetPriority);
-    addSubTodoForm.appendChild(addDescriptionLabel);
-    addSubTodoForm.appendChild(addDescription);
-    addSubTodoForm.appendChild(submitForm);
-    addSubTodoForm.appendChild(cancelButton);
-    document.body.appendChild(addSubTodoForm);
-
 }
 
 function removeSubTodo(projectManager, todo, subTodo, subTodoListNode) {

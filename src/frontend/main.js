@@ -1,4 +1,4 @@
-import { parse } from "date-fns";
+import { format, parse } from "date-fns";
 import { save } from "../backend/localStorage";
 import Todo from "../backend/todo";
 import { renderTodo } from "./todoPopup";
@@ -31,33 +31,57 @@ export function renderTodos(projectManager, project, todoList) {
 
     project.list.forEach(todo => {
         const todoBlock = document.createElement("div");
-        todoBlock.id = "todo-block";
+        todoBlock.classList.add("todo-block");
+        todoBlock.addEventListener("click", () => renderTodo(projectManager, project, todo));
 
-        const todoButton = document.createElement("button");
-        todoButton.classList.add("todo");
-        todoButton.textContent = todo.name;
-        todoButton.addEventListener("click", () => renderTodo(projectManager, project, todo))
-        todoBlock.appendChild(todoButton);
+        const todoInfo = document.createElement("div");
+        todoInfo.classList.add("todo-info");
 
         const removeTodoButton = document.createElement("button"); 
-        removeTodoButton.id = "remove-todo";
+        removeTodoButton.classList.add("remove-todo");
         removeTodoButton.textContent = "O";
-        removeTodoButton.addEventListener("click", () => removeTodo(projectManager, project, todo, todoList));
-        todoBlock.appendChild(removeTodoButton);
+        removeTodoButton.style.color = priorityColor(todo.priority);
+        removeTodoButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            removeTodo(projectManager, project, todo, todoList);
+        });
+        todoInfo.appendChild(removeTodoButton);
+
+        const todoName = document.createElement("div");
+        todoName.classList.add("todo-name");
+        todoName.textContent = todo.name;
+        todoInfo.appendChild(todoName);
+
+        todoBlock.appendChild(todoInfo);
+
+        const todoDueDate = document.createElement("div");
+        todoDueDate.classList.add("todo-due-date");
+        todoDueDate.textContent = format(todo.dueDate, "MM-dd-yyyy");
+        todoBlock.appendChild(todoDueDate);
 
         todoList.appendChild(todoBlock);
     });
 }
 
-function addTodoForm(projectManager, project, todoList) {
-    if (document.querySelector("#todo-form")) return;
+export function priorityColor(priority) {
+    switch (Number(priority)) {
+        case 1: return "#ff0000"; 
+        case 2: return "#e8da3e"; 
+        case 3: return "blue"; 
+        case 4: return "gray"; 
+        default: return "#676663";
+    }
+}
+
+export function addTodoForm(projectManager, project, todoList) {
+    if (document.querySelector(".todo-form")) return;
 
     const addTodoForm = document.createElement("form");
     addTodoForm.classList.add("todo-form");
 
     const addNameLabel = document.createElement("label");
     addNameLabel.htmlFor = "name";
-    addNameLabel.textContent = "Todo Name:";
+    addNameLabel.textContent = "Name ";
     const addName = document.createElement("input");
     addName.type = "text";
     addName.required = true;
@@ -65,7 +89,7 @@ function addTodoForm(projectManager, project, todoList) {
 
     const addDueDateLabel = document.createElement("label");
     addDueDateLabel.htmlFor = "date";
-    addDueDateLabel.textContent = "Due Date:";
+    addDueDateLabel.textContent = "Due Date ";
     const addDueDate = document.createElement("input");
     addDueDate.type = "date";
     addDueDate.required = true;
@@ -73,7 +97,7 @@ function addTodoForm(projectManager, project, todoList) {
 
     const fieldsetPriority = document.createElement("fieldset");
     const priorityLegend = document.createElement("legend");
-    priorityLegend.textContent = "Priority:";
+    priorityLegend.textContent = "Priority ";
     fieldsetPriority.appendChild(priorityLegend);
 
     [1, 2, 3, 4].forEach(priority => {
@@ -92,7 +116,7 @@ function addTodoForm(projectManager, project, todoList) {
 
     const addDescriptionLabel = document.createElement("label");
     addDescriptionLabel.htmlFor = "description";
-    addDescriptionLabel.textContent = "Todo Description:";
+    addDescriptionLabel.textContent = "Description ";
     const addDescription = document.createElement("input");
     addDescription.type = "text";
     addDescription.required = true;

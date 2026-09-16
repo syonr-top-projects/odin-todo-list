@@ -19,7 +19,7 @@ body {
 
 #project-section-title {
     font-size: 2rem;
-    font-family: "Work-Sans", sans-serif;
+    font-family: "Work Sans", sans-serif;
     margin-bottom: 2rem;
     color: #676663
 }
@@ -59,7 +59,6 @@ body {
     background-color: #e3e1da;
 }
 
-
 #project-form {
     box-sizing: border-box;
     padding-top: 1rem;
@@ -89,42 +88,241 @@ body {
     border-radius: 1rem;
 }
 
+/* todo section */
 
 #todo-section {
     background-color: #fafaf8;
     flex: 0 0 80%;
     box-sizing: border-box;
+    padding: 2rem;
 }
 
+#project-title {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    font-family: "Work Sans", sans-serif;
+    color: #676663
+}
+
+#project-description {
+    font-size: 1rem;
+    font-family: "Work Sans", sans-serif;
+    color: #676663;
+    margin-bottom: 1rem;
+}
+
+#todo-list {
+    box-sizing: border-box;
+}
+
+.todo-block {
+    border-bottom: 2px solid #4b4a47;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    font-family: "Work Sans", sans-serif;
+    color: #676663;
+    font-size: 1rem;
+}
+
+.todo-block button {
+    all: unset;
+}
+
+.todo-block:hover {
+    background-color: #e3e1da;
+}
+
+.todo-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-sizing: border-box;
+}
+
+.todo-block .remove-todo {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.remove-todo:hover {
+    background-color: #d1cfc9;
+}
+
+.todo-name {
+    font-size: 1.25rem;
+}
+
+.todo-due-date {
+    align-self: center;
+}
+
+#add-todo {
+    all: unset;
+    font-size: 1.5rem;
+    font-family: "Work Sans", sans-serif;
+    color: #676663;
+    padding: 1rem;
+}
+
+#add-todo:hover {
+    background-color: #e3e1da;
+}
+
+
+/* Todo Form */
+
 .todo-form {
-    background-color: aliceblue;
+    background-color: #efede6;
+    box-shadow: #676663 3px 4px;
+    border-radius: 1rem;
+    padding: 2rem;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     box-sizing: border-box;
+    font-size: 1rem;
+    font-family: "Work Sans", sans-serif;
+    color: #676663;
 }
 
+.todo-form button {
+    font-size: 1rem;
+    font-family: "Work Sans", sans-serif;
+    color: #676663;
+    margin-right: 1rem;
+    padding: 10px 1rem;
+    border-radius: 1rem;
+}
+
+/* Todo PopUp */
+
 #todo-pop-up {
-    background-color: rgb(139, 95, 139);
+    background-color: #fafaf8;
+    box-shadow: #676663 3px 4px;
+    border-radius: 1rem;
+    overflow: hidden;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
-    width: 30%;
+    width: 50%;
     min-height: 60vh;
     box-sizing: border-box;
+    font-size: 1rem;
+    font-family: "Work Sans", sans-serif;
+    color: #676663;
+}
+
+#todo-pop-up button {
+    all: unset;
+    font-family: inherit;
+    color: inherit;
+    cursor: pointer;
 }
 
 #todo-main-section {
-    background-color: aqua;
-    flex: 0 0 20%;
+    flex: 0 0 70%;
+    padding: 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+#todo-pop-up-title {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+#todo-pop-up-description {
+    margin-bottom: 2rem;
+}
+
+#sub-todo-list {
+    box-sizing: border-box;
+    margin-bottom: auto;
+}
+
+.sub-todo-block {
+    border-bottom: 2px solid #4b4a47;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     box-sizing: border-box;
 }
 
-#todo-sidebar {
-    background-color: yellow;
-    flex: 0 0 80%;
+.sub-todo-block:hover {
+    background-color: #e3e1da;
+}
+
+.sub-todo-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     box-sizing: border-box;
+}
+
+#todo-pop-up .remove-sub-todo {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.remove-sub-todo:hover {
+    background-color: #d1cfc9;
+}
+
+.sub-todo-name {
+    font-size: 1.25rem;
+}
+
+.sub-todo-due-date {
+    align-self: center;
+}
+
+.sub-todo-description {
+    flex-basis: 100%;
+    padding-top: 5px;
+}
+
+#add-sub-todo {
+    padding: 1rem;
+    margin-top: 1rem;
+    align-self: flex-start;
+}
+
+#add-sub-todo:hover {
+    background-color: #e3e1da;
+}
+
+#close-todo {
+    padding: 10px 1rem;
+    margin-top: 1rem;
+    border-radius: 1rem;
+    border: 2px solid #4b4a47;
+    align-self: flex-start;
+}
+
+#close-todo:hover {
+    background-color: #e3e1da;
+}
+
+#todo-sidebar {
+    background-color: #efede6;
+    flex: 0 0 30%;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.todo-meta {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #4b4a47;
+}
+
+.todo-meta:last-child {
+    border-bottom: none;
 }
