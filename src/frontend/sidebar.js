@@ -42,20 +42,23 @@ export function renderProjects(projectManager, projectList, todoSection) {
 
     projectManager.list.forEach(project => {
         const projectBlock = document.createElement("div");
-        projectBlock.id = "project-block";
-
-        const renderProjectButton = document.createElement("button");
-        renderProjectButton.classList.add("project");
-        renderProjectButton.textContent = project.name;
-        renderProjectButton.addEventListener("click", () => {
+        projectBlock.classList.add("project-block");
+        projectBlock.addEventListener("click", () => {
             renderProject(projectManager, project, todoSection);
         });
-        projectBlock.appendChild(renderProjectButton);
 
-        const removeProjectButton = document.createElement("button"); 
-        removeProjectButton.id = "remove-project";
+        const projectName = document.createElement("button");
+        projectName.classList.add("project");
+        projectName.textContent = project.name;
+        projectBlock.appendChild(projectName);
+
+        const removeProjectButton = document.createElement("button");
+        removeProjectButton.classList.add("remove-project");
         removeProjectButton.textContent = "X";
-        removeProjectButton.addEventListener("click", () => removeProject(projectManager, project, projectList, todoSection));
+        removeProjectButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            removeProject(projectManager, project, projectList, todoSection);
+        });
         projectBlock.appendChild(removeProjectButton);
 
         projectList.appendChild(projectBlock);
@@ -72,14 +75,14 @@ function addProjectForm(projectManager, projectList, todoSection, projectSection
     addName.id = "name";
     const addNameLabel = document.createElement("label");
     addNameLabel.htmlFor = "name";
-    addNameLabel.textContent = "Project Name:";
+    addNameLabel.textContent = "Project Name ";
     const addDescription = document.createElement("input");
     addDescription.type = "text";
     addDescription.required = true;
     addDescription.id = "description";
     const addDescriptionLabel = document.createElement("label");
     addDescriptionLabel.htmlFor = "description";
-    addDescriptionLabel.textContent = "Project Description:";    
+    addDescriptionLabel.textContent = "Project Description ";    
     const submitForm = document.createElement("button");
     submitForm.type = "submit";
     submitForm.textContent = "Submit";
@@ -109,8 +112,10 @@ function addProjectForm(projectManager, projectList, todoSection, projectSection
 
     addProjectForm.appendChild(addNameLabel);
     addProjectForm.appendChild(addName);
+    addProjectForm.appendChild(document.createElement("br"));
     addProjectForm.appendChild(addDescriptionLabel);
     addProjectForm.appendChild(addDescription);
+    addProjectForm.appendChild(document.createElement("br"));
     addProjectForm.appendChild(submitForm);
     addProjectForm.appendChild(cancelButton);    
     projectSection.appendChild(addProjectForm);
