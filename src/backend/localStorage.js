@@ -6,7 +6,10 @@ import SubTodo from "./subTodo";
 const KEY = "projects";
 
 export function load() {
-    const projects = JSON.parse(localStorage.getItem(KEY)); 
+    const stored = localStorage.getItem(KEY);
+    if (!stored) return null;
+
+    const projects = JSON.parse(stored);
 
     const manager = new ProjectManager();
 
